@@ -16,15 +16,15 @@ class Book extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->name,
-            'isbn' => $this->isbn,
-            'authors' => collect($this->authors)->map(function ($author) {
+            'name' => $this->name ?? '',
+            'isbn' => $this->isbn ?? '',
+            'authors' => collect($this->authors ?? [])->map(function ($author) {
                 return $author->name;
             }),
-            'number_of_pages' => $this->number_of_pages,
-            'publisher' => $this->publisher,
-            'country' => $this->country,
-            'release_date' => Carbon::parse($this->release_date)->format('Y-m-d'),
+            'number_of_pages' => $this->number_of_pages ?? 0,
+            'publisher' => $this->publisher ?? '',
+            'country' => $this->country ?? '',
+            'release_date' => Carbon::parse($this->release_date ?? '')->format('Y-m-d'),
         ];
     }
 }
