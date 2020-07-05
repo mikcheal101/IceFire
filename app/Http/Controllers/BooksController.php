@@ -21,7 +21,7 @@ class BooksController extends Controller
      * @param Request $request
      * @return JsonResponse [Book] instance
      */
-    public function LoadBooks(Request $request): JsonResponse
+    public function LoadBooks(Request $request, $name): JsonResponse
     {
         try {
             $http = Http::get(env('ICE_FIRE_API'));
@@ -111,7 +111,15 @@ class BooksController extends Controller
                 }
                 $book->save();
             }
-            return response()->json(new BookResource($book), 200);
+            return response()->json(
+                [
+                    'status_code' => 200,
+                    'status' => 'success',
+                    'message' => 'the book {$book->name} was updated successfully',
+                    'data' => new BookResource($book),
+                ],
+                200
+            );
         } catch (Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
